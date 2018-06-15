@@ -4,10 +4,21 @@
   "main": "index.js",
   "repository": "https://github.com/Botfuel/botfuel-module-adapter-messenger.git",
   "author": "Benjamin Heinen <benjamin150594@hotmail.fr> && Josselin Morau <josselin.morau@gmail.com>",
+  "description": "Messenger adapter module for Botfuel Dialog",
   "license": "Apache 2.0",
-  "private": null,
-  "dependencies": {},
+  "dependencies": {
+    "botfuel-dialog": "^8.0.4",
+    "jest": "^23.1.0",
+    "request-promise-native": "^1.0.5",
+    "sinon": "^6.0.0",
+    "uuid": "^3.2.1"
+  },
   "peerDependencies": {
     "botfuel-dialog": "^8.0.4"
+  },
+  "scripts": {
+    "test": "BOTFUEL_APP_TOKEN=TEST_BOT jest",
+    "style": "eslint src && eslint tests",
+    "release": "yarn test && yarn publish --conventional-commits --changelog-preset=angular"
   }
 }
