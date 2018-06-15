@@ -1,0 +1,13 @@
+{
+  "name": "botfuel-module-adapter-messenger",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Botfuel/botfuel-module-adapter-messenger.git",
+  "author": "Benjamin Heinen <benjamin150594@hotmail.fr> && Josselin Morau <josselin.morau@gmail.com>",
+  "license": "Apache 2.0",
+  "private": null,
+  "dependencies": {},
+  "peerDependencies": {
+    "botfuel-dialog": "^8.0.4"
+  }
+}
