@@ -16,6 +16,8 @@
 
 // @flow
 
+import type { BotMessageJson } from 'botfuel-dialog';
+
 const rp = require('request-promise-native');
 const logger = require('logtown')('MessengerAdapter');
 const { WebAdapter, PostbackMessage, UserImageMessage, UserTextMessage } = require('botfuel-dialog');
@@ -25,7 +27,7 @@ const FB_GRAPH_URL = 'https://graph.facebook.com/v2.6';
 type MessengerEvent = {
   sender: {
     id: string,
-  },
+  }, 
   recipient: {
     id: string,
   },
@@ -161,7 +163,7 @@ class MessengerAdapter extends WebAdapter {
   }
 
   /** @inheritDoc */
-  getBody(botMessage) {
+  getBody(botMessage: BotMessageJson) {
     const message = this.adapt(botMessage);
     return {
       messaging_type: 'RESPONSE',
@@ -262,7 +264,7 @@ class MessengerAdapter extends WebAdapter {
    * @param botMessage - the bot message
    * @returns the adapted message
    */
-  adapt(botMessages) {
+  adapt(botMessage: BotMessageJson) {
     logger.debug('adapt', botMessage);
     const { payload } = botMessage;
     switch (botMessage.type) {
@@ -319,7 +321,6 @@ class MessengerAdapter extends WebAdapter {
     if (!userProfile || !Object.keys(userProfile).length) {
       try {
         const res = await rp({
-          method: 'GET',
           json: true,
           uri: `${FB_GRAPH_URL}/${userId}`,
           qs: {

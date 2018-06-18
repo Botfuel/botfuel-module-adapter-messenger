@@ -8,6 +8,7 @@
   "license": "Apache 2.0",
   "dependencies": {
     "jest-cli": "^23.1.0",
+    "logtown": "^2.1.3",
     "request-promise-native": "^1.0.5",
     "sinon": "^6.0.0",
     "uuid": "^3.2.1"
@@ -45,7 +46,7 @@
     "botfuel-dialog": "^8.0.4"
   },
   "scripts": {
-    "test": "BOTFUEL_APP_TOKEN=TEST_BOT BOTFUEL_APP_ID=TEST BOTFUEL_APP_KEY=TEST FB_PAGE_ACCESS_TOKEN=EAALOZCMxIs0IBADLnTsby9FjbGQxyiQ3ApFE7ZBqdZAe9YD17wZCW4WIQVjW5bVOBNM4x6DnWx5l1rs3UKHzTssClMzlZBzz9oXAVZAJnvewtusNLK6ZAymfTgKNt2Sq5fZCQIirgdfhDZB7KK2QODwyle7ThvY7lFJwR8vZA5kzDfcwZDZD FB_VERIFY_TOKEN=itworks FB_PAGE_ID=790535107818306 jest",
+    "test": "BOTFUEL_APP_TOKEN=TEST_BOT BOTFUEL_APP_ID=TEST BOTFUEL_APP_KEY=TEST FB_PAGE_ID=790535107818306 jest",
     "style": "eslint src && eslint tests",
     "release": "yarn test && yarn publish --conventional-commits --changelog-preset=angular"
   }

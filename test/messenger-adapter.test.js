@@ -21,9 +21,10 @@ const {Bot,
       CardsMessage,
       Link,
       Postback,
-      Config} = require('botfuel-dialog');
+      Config, 
+      TestAdapterMessenger } = require('botfuel-dialog');
 const sinon = require('sinon');
-const rp = require('request-promise-native');
+const rp = TestAdapterMessenger;
 const uuidv4 = require('uuid/v4');
 
 const TEST_CONFIG = Config.getConfiguration({
