@@ -16,8 +16,6 @@
 
 // @flow
 
-import type { BotMessageJson } from 'botfuel-dialog';
-
 const rp = require('request-promise-native');
 const logger = require('logtown')('MessengerAdapter');
 const { WebAdapter,
@@ -166,7 +164,7 @@ class MessengerAdapter extends WebAdapter {
   }
 
   /** @inheritDoc */
-  getBody(botMessage: BotMessageJson) {
+  getBody(botMessage) {
     const message = this.adapt(botMessage);
     return {
       messaging_type: 'RESPONSE',
@@ -267,7 +265,7 @@ class MessengerAdapter extends WebAdapter {
    * @param botMessage - the bot message
    * @returns the adapted message
    */
-  adapt(botMessage: BotMessageJson) {
+  adapt(botMessage) {
     logger.debug('adapt', botMessage);
     const { payload } = botMessage;
     switch (botMessage.type) {
