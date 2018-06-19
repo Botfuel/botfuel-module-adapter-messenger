@@ -43,7 +43,7 @@
     "shelljs": "^0.8.2"
   },
   "peerDependencies": {
-    "botfuel-dialog": "latest"
+    "botfuel-dialog": "^8.0.2"
   },
   "scripts": {
     "test": "BOTFUEL_APP_TOKEN=TEST_BOT BOTFUEL_APP_ID=TEST BOTFUEL_APP_KEY=TEST FB_PAGE_ID=790535107818306 jest",
