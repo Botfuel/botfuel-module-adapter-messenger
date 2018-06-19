@@ -15,7 +15,6 @@
  */
 
 const {Bot,
-      MessengerAdapter,
       BotTextMessage,
       Card,
       CardsMessage,
@@ -26,6 +25,7 @@ const {Bot,
 const sinon = require('sinon');
 const rp = TestAdapterMessenger;
 const uuidv4 = require('uuid/v4');
+const MessengerAdapter = require('../src/adapters/messenger-adapter');
 
 const TEST_CONFIG = Config.getConfiguration({
   adapter: { name: 'messenger' },
