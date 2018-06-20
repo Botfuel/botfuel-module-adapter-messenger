@@ -1,4 +1,4 @@
-const MessengerAdapter =require('./build/adapters/messenger-adapter');
+const MessengerAdapter = require('./build/adapters/messenger-adapter');
 
 module.exports = {
   botfuelModuleRoot: 'build',
