@@ -16,6 +16,8 @@
 
 // @flow
 
+import type { BotMessageJson } from '../messages/message';
+
 const rp = require('request-promise-native');
 const logger = require('logtown')('MessengerAdapter');
 const { WebAdapter,
@@ -164,7 +166,7 @@ class MessengerAdapter extends WebAdapter {
   }
 
   /** @inheritDoc */
-  getBody(botMessage) {
+  getBody(botMessage: BotMessageJson) {
     const message = this.adapt(botMessage);
     return {
       messaging_type: 'RESPONSE',
@@ -265,7 +267,7 @@ class MessengerAdapter extends WebAdapter {
    * @param botMessage - the bot message
    * @returns the adapted message
    */
-  adapt(botMessage) {
+  adapt(botMessage: BotMessageJson) {
     logger.debug('adapt', botMessage);
     const { payload } = botMessage;
     switch (botMessage.type) {

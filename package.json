@@ -47,6 +47,12 @@
   "scripts": {
     "test": "BOTFUEL_APP_TOKEN=TEST_BOT BOTFUEL_APP_ID=TEST BOTFUEL_APP_KEY=TEST FB_PAGE_ID=790535107818306 jest",
     "style": "eslint src && eslint tests",
-    "release": "yarn test && yarn publish --conventional-commits --changelog-preset=angular"
+    "release": "yarn test && yarn publish --conventional-commits --changelog-preset=angular",
+    "prebuild": "node ./scripts/prebuild.js ",
+    "build": "babel src --out-dir build"
+  },
+  "bin": {
+    "botfuel-run": "./build/run.js",
+    "botfuel-clean": "./build/clean.js"
   }
 }

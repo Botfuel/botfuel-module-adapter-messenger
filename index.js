@@ -1,6 +1,6 @@
-const MessengerAdapter =require('./src/adapters/messenger-adapter');
+const MessengerAdapter =require('./build/adapters/messenger-adapter');
 
 module.exports = {
-  botfuelModuleRoot: 'src',
+  botfuelModuleRoot: 'build',
   MessengerAdapter
 };
