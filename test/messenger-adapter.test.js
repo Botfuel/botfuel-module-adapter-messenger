@@ -20,10 +20,9 @@ const {Bot,
       CardsMessage,
       Link,
       Postback,
-      Config, 
-      TestAdapterMessenger } = require('botfuel-dialog');
+      Config } = require('botfuel-dialog');
+const rp = require('../node_modules/botfuel-dialog/node_modules/request-promise-native')
 const sinon = require('sinon');
-const rp = TestAdapterMessenger;
 const uuidv4 = require('uuid/v4');
 const MessengerAdapter = require('../src/adapters/messenger-adapter');
 
