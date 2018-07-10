@@ -1,0 +1,15 @@
+# Adapter Messenger module
+
+The **Adapter Messenger** module provides:
+* a adapter
+
+## Resources
+* [Adapter Messenger demo bot source code](https://github.com/Botfuel/botfuel-dialog/tree/master/packages/test-ecommerce)
+
+## About modules
+
+See the [Modules Overview](http://docs.botfuel.io/dialog/modules/overview).
+
+## License
+
+See the [**License**](LICENSE.md) file.
