@@ -331,13 +331,17 @@ class MessengerAdapter extends WebAdapter {
             access_token: process.env.FB_PAGE_ACCESS_TOKEN,
           },
         }).promise();
-        const profile = {
-          firstName: res.first_name,
-          lastName: res.last_name,
-          gender: res.gender,
-        };
-        await this.bot.brain.userSet(userId, 'profile', profile);
-        logger.debug('updateUserProfile: user profile updated with', profile);
+        if (res.first_name && res.last_name) {
+          const profile = {
+            firstName: res.first_name,
+            lastName: res.last_name,
+            gender: res.gender,
+          };
+          await this.bot.brain.userSet(userId, 'profile', profile);
+          logger.debug('updateUserProfile: user profile updated with', profile);
+        } else {
+          logger.debug('updateUserProfile: no user profile data available');
+        }
       } catch (error) {
         logger.error('updateUserProfile: error', error.message || error.error || error);
       }
