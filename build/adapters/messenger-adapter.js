@@ -28,13 +28,14 @@ var rp = require('request-promise-native'); /**
                                              * limitations under the License.
                                              */
 
-var logger = require('logtown')('MessengerAdapter');
-
 var _require = require('botfuel-dialog'),
+    Logger = _require.Logger,
     WebAdapter = _require.WebAdapter,
     PostbackMessage = _require.PostbackMessage,
     UserImageMessage = _require.UserImageMessage,
     UserTextMessage = _require.UserTextMessage;
+
+var logger = Logger('MessengerAdapter');
 
 var FB_GRAPH_URL = 'https://graph.facebook.com/v2.6';
 
@@ -537,7 +538,7 @@ var MessengerAdapter = function (_WebAdapter) {
                 userProfile = _context5.sent;
 
                 if (!(!userProfile || !Object.keys(userProfile).length)) {
-                  _context5.next = 18;
+                  _context5.next = 22;
                   break;
                 }
 
@@ -554,31 +555,44 @@ var MessengerAdapter = function (_WebAdapter) {
 
               case 8:
                 res = _context5.sent;
+
+                if (!(res.first_name && res.last_name)) {
+                  _context5.next = 16;
+                  break;
+                }
+
                 profile = {
                   firstName: res.first_name,
                   lastName: res.last_name,
-                  gender: res.gender
+                  gender: res.gender || null
                 };
-                _context5.next = 12;
+                _context5.next = 13;
                 return this.bot.brain.userSet(userId, 'profile', profile);
 
-              case 12:
+              case 13:
                 logger.debug('updateUserProfile: user profile updated with', profile);
-                _context5.next = 18;
+                _context5.next = 17;
                 break;
 
-              case 15:
-                _context5.prev = 15;
+              case 16:
+                logger.debug('updateUserProfile: no user profile data available');
+
+              case 17:
+                _context5.next = 22;
+                break;
+
+              case 19:
+                _context5.prev = 19;
                 _context5.t0 = _context5['catch'](5);
 
                 logger.error('updateUserProfile: error', _context5.t0.message || _context5.t0.error || _context5.t0);
 
-              case 18:
+              case 22:
               case 'end':
                 return _context5.stop();
             }
           }
-        }, _callee5, this, [[5, 15]]);
+        }, _callee5, this, [[5, 19]]);
       }));
 
       function updateUserProfile(_x7) {
