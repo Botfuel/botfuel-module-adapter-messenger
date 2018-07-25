@@ -19,11 +19,15 @@
 import type { BotMessageJson } from '../messages/message';
 
 const rp = require('request-promise-native');
-const logger = require('logtown')('MessengerAdapter');
-const { WebAdapter,
-        PostbackMessage,
-        UserImageMessage,
-        UserTextMessage } = require('botfuel-dialog');
+const {
+  Logger,
+  WebAdapter,
+  PostbackMessage,
+  UserImageMessage,
+  UserTextMessage,
+} = require('botfuel-dialog');
+
+const logger = Logger('MessengerAdapter');
 
 const FB_GRAPH_URL = 'https://graph.facebook.com/v2.6';
 
