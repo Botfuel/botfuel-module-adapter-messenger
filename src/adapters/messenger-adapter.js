@@ -331,11 +331,12 @@ class MessengerAdapter extends WebAdapter {
             access_token: process.env.FB_PAGE_ACCESS_TOKEN,
           },
         }).promise();
+        // looking for first_name and last_name existence
         if (res.first_name && res.last_name) {
           const profile = {
             firstName: res.first_name,
             lastName: res.last_name,
-            gender: res.gender,
+            gender: res.gender || null,
           };
           await this.bot.brain.userSet(userId, 'profile', profile);
           logger.debug('updateUserProfile: user profile updated with', profile);
