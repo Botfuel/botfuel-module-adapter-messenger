@@ -2,6 +2,9 @@
   "name": "botfuel-module-adapter-messenger",
   "version": "1.2.9",
   "main": "index.js",
+  "jest": {
+    "testURL": "http://localhost"
+  },
   "repository": "https://github.com/Botfuel/botfuel-module-adapter-messenger.git",
   "author": "Benjamin Heinen <benjamin150594@hotmail.fr> && Josselin Morau <josselin.morau@gmail.com>",
   "description": "Messenger adapter module for Botfuel Dialog",

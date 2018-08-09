@@ -18,10 +18,12 @@ const {Bot,
       BotTextMessage,
       Card,
       CardsMessage,
+      UserImageMessage,
+      UserFileMessage,
       Link,
       Postback,
       Config } = require('botfuel-dialog');
-const rp = require('../node_modules/botfuel-dialog/node_modules/request-promise-native')
+const rp = require('../node_modules/request-promise-native')
 const sinon = require('sinon');
 const uuidv4 = require('uuid/v4');
 const MessengerAdapter = require('../src/adapters/messenger-adapter');
@@ -217,5 +219,35 @@ describe('MessengerAdapter request handling', () => {
 
     expect(requestStub.callCount).toBe(1);
     expect(requestStub.firstCall.args).toEqual([expectedBotResponse]);
+  });
+});
+
+describe('Test bot answers to uploads', () => {
+  test('Bot\'s response by default to image', async () => {
+    const bot = new Bot({adapter:{
+      name: 'test',
+    }});
+    const { userId } = bot.adapter;
+    await bot.play([
+      new UserImageMessage('https://image1.jpg'),
+    ]);
+    expect(bot.adapter.log).toEqual([
+      new UserImageMessage('https://image1.jpg'),
+      new BotTextMessage('Image uploads are not supported.'),
+    ].map(o => o.toJson(userId)));
+  });
+
+  test('Bot\'s response by default to file', async () => {
+    const bot = new Bot({adapter:{
+      name: 'test',
+    }});
+    const { userId } = bot.adapter;
+    await bot.play([
+      new UserFileMessage('https://fichier1.txt'),
+    ]);
+    expect(bot.adapter.log).toEqual([
+      new UserFileMessage('https://fichier1.txt'),
+      new BotTextMessage('File uploads are not supported.'),
+    ].map(o => o.toJson(userId)));
   });
 });
