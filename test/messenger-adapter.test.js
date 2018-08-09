@@ -23,7 +23,7 @@ const {Bot,
       Link,
       Postback,
       Config } = require('botfuel-dialog');
-const rp = require('../node_modules/request-promise-native')
+const rp = require('../node_modules/botfuel-dialog/node_modules/request-promise-native')
 const sinon = require('sinon');
 const uuidv4 = require('uuid/v4');
 const MessengerAdapter = require('../src/adapters/messenger-adapter');
