@@ -223,10 +223,12 @@ describe('MessengerAdapter request handling', () => {
 });
 
 describe('Test bot answers to uploads', () => {
-  test('Bot\'s response by default to image', async () => {
-    const bot = new Bot({adapter:{
-      name: 'test',
-    }});
+  test(`Bot's response by default to image`, async () => {
+    const bot = new Bot({
+      adapter: {
+          name: 'test'
+      }
+    });
     const { userId } = bot.adapter;
     await bot.play([
       new UserImageMessage('https://image1.jpg'),
@@ -237,16 +239,18 @@ describe('Test bot answers to uploads', () => {
     ].map(o => o.toJson(userId)));
   });
 
-  test('Bot\'s response by default to file', async () => {
-    const bot = new Bot({adapter:{
-      name: 'test',
-    }});
+  test(`Bot's response by default to file`, async () => {
+    const bot = new Bot({
+      adapter: {
+          name: 'test'
+      }
+    });
     const { userId } = bot.adapter;
     await bot.play([
-      new UserFileMessage('https://fichier1.txt'),
+      new UserFileMessage('https://file1.txt'),
     ]);
     expect(bot.adapter.log).toEqual([
-      new UserFileMessage('https://fichier1.txt'),
+      new UserFileMessage('https://file1.txt'),
       new BotTextMessage('File uploads are not supported.'),
     ].map(o => o.toJson(userId)));
   });
