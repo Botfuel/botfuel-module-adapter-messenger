@@ -25,6 +25,7 @@ const {
   PostbackMessage,
   UserImageMessage,
   UserTextMessage,
+  UserFileMessage,
 } = require('botfuel-dialog');
 
 const logger = Logger('MessengerAdapter');
@@ -138,6 +139,8 @@ class MessengerAdapter extends WebAdapter {
       } else if (attachments && attachments[0].type === 'location') {
         const { lat, long } = attachments[0].payload.coordinates;
         userMessage = new UserTextMessage(`${lat}, ${long}`);
+      } else if (attachments && attachments[0].type === 'file') {
+        userMessage = new UserFileMessage(attachments[0].payload.url);
       } else {
         userMessage = new UserTextMessage(text);
       }
@@ -227,6 +230,22 @@ class MessengerAdapter extends WebAdapter {
   /**
    * @private
    * @param payload - the payload
+   * @returns the file
+   */
+  adaptFile(payload: any) {
+    return {
+      attachment: {
+        type: 'file',
+        payload: {
+          url: payload.value,
+        },
+      },
+    };
+  }
+
+  /**
+   * @private
+   * @param payload - the payload
    * @returns the actions
    */
   adaptActions(payload: any) {
@@ -281,6 +300,8 @@ class MessengerAdapter extends WebAdapter {
         return this.adaptQuickreplies(payload);
       case 'image':
         return this.adaptImage(payload);
+      case 'file':
+        return this.adaptFile(payload);
       case 'actions':
         return this.adaptActions(payload);
       case 'cards':

@@ -31,7 +31,7 @@
     "flow-bin": "^0.69.0",
     "flow-typed": "^2.4.0",
     "husky": "^0.14.3",
-    "jest": "^21.2.1",
+    "jest": "^23.5.0",
     "jest-cli": "^23.1.0",
     "lerna": "^3.0.0-alpha.1",
     "react-flow-types": "^0.2.0-beta.6",

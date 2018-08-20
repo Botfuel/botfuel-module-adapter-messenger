@@ -33,7 +33,8 @@ var _require = require('botfuel-dialog'),
     WebAdapter = _require.WebAdapter,
     PostbackMessage = _require.PostbackMessage,
     UserImageMessage = _require.UserImageMessage,
-    UserTextMessage = _require.UserTextMessage;
+    UserTextMessage = _require.UserTextMessage,
+    UserFileMessage = _require.UserFileMessage;
 
 var logger = Logger('MessengerAdapter');
 
@@ -280,6 +281,8 @@ var MessengerAdapter = function (_WebAdapter) {
                     _attachments$0$payloa = _attachments[0].payload.coordinates, _lat = _attachments$0$payloa.lat, _long = _attachments$0$payloa.long;
 
                     userMessage = new UserTextMessage(_lat + ', ' + _long);
+                  } else if (_attachments && _attachments[0].type === 'file') {
+                    userMessage = new UserFileMessage(_attachments[0].payload.url);
                   } else {
                     userMessage = new UserTextMessage(_text);
                   }
@@ -434,6 +437,25 @@ var MessengerAdapter = function (_WebAdapter) {
     /**
      * @private
      * @param payload - the payload
+     * @returns the file
+     */
+
+  }, {
+    key: 'adaptFile',
+    value: function adaptFile(payload) {
+      return {
+        attachment: {
+          type: 'file',
+          payload: {
+            url: payload.value
+          }
+        }
+      };
+    }
+
+    /**
+     * @private
+     * @param payload - the payload
      * @returns the actions
      */
 
@@ -498,6 +520,8 @@ var MessengerAdapter = function (_WebAdapter) {
           return this.adaptQuickreplies(payload);
         case 'image':
           return this.adaptImage(payload);
+        case 'file':
+          return this.adaptFile(payload);
         case 'actions':
           return this.adaptActions(payload);
         case 'cards':
