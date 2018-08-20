@@ -2,9 +2,6 @@
   "name": "botfuel-module-adapter-messenger",
   "version": "1.2.9",
   "main": "index.js",
-  "jest": {
-    "testURL": "http://localhost"
-  },
   "repository": "https://github.com/Botfuel/botfuel-module-adapter-messenger.git",
   "author": "Benjamin Heinen <benjamin150594@hotmail.fr> && Josselin Morau <josselin.morau@gmail.com>",
   "description": "Messenger adapter module for Botfuel Dialog",
@@ -34,7 +31,7 @@
     "flow-bin": "^0.69.0",
     "flow-typed": "^2.4.0",
     "husky": "^0.14.3",
-    "jest": "^21.2.1",
+    "jest": "^23.5.0",
     "jest-cli": "^23.1.0",
     "lerna": "^3.0.0-alpha.1",
     "react-flow-types": "^0.2.0-beta.6",
