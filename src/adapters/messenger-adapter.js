@@ -145,8 +145,8 @@ class MessengerAdapter extends WebAdapter {
         userMessage = new UserTextMessage(text);
       }
     } else if (postback) {
-      const { dialog, entities } = JSON.parse(postback.payload);
-      userMessage = new PostbackMessage({ name: dialog, data: { messageEntities: entities } });
+      const { name, data } = JSON.parse(postback.payload);
+      userMessage = new PostbackMessage({ name, data });
     }
 
     if (userMessage) {
