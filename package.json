@@ -42,7 +42,7 @@
     "uuid": "^3.2.1"
   },
   "peerDependencies": {
-    "botfuel-dialog": ">=9.0.0"
+    "botfuel-dialog": ">=11.0.0"
   },
   "scripts": {
     "test": "BOTFUEL_APP_TOKEN=TEST_BOT BOTFUEL_APP_ID=TEST BOTFUEL_APP_KEY=TEST FB_PAGE_ID=790535107818306 jest",
