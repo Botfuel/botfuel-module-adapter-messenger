@@ -17,7 +17,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-stage-2": "^6.24.1",
-    "botfuel-dialog": "^10.0.2",
+    "botfuel-dialog": "^11.6.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-babel": "^4.1.1",
