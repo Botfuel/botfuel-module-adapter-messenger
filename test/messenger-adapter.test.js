@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-const {Bot,
-      BotTextMessage,
-      Card,
-      CardsMessage,
-      UserImageMessage,
-      UserFileMessage,
-      Link,
-      Postback,
-      Config } = require('botfuel-dialog');
-const rp = require('../node_modules/botfuel-dialog/node_modules/request-promise-native')
+const {
+  Bot,
+  BotTextMessage,
+  Card,
+  CardsMessage,
+  UserImageMessage,
+  UserFileMessage,
+  Link,
+  Postback,
+  Config,
+} = require('botfuel-dialog');
+const rp = require('request-promise-native');
 const sinon = require('sinon');
 const uuidv4 = require('uuid/v4');
 const MessengerAdapter = require('../src/adapters/messenger-adapter');
@@ -39,11 +41,11 @@ describe('MessengerAdapter', () => {
     const message = new CardsMessage([
       new Card('Card 1', 'https://image1.jpg', [
         new Link('Details', 'https://image1'),
-        new Postback('Buy', 'products', [{ dim: 'product', value: '1' }]),
+        new Postback('Buy', { name: 'products', data: { messageEntities: [{ dim: 'product', value: '1' }] } }),
       ]),
       new Card('Card 2', 'https://image2.jpg', [
         new Link('Details', 'https://image2'),
-        new Postback('Buy', 'products', [{ dim: 'product', value: '2' }]),
+        new Postback('Buy', { name: 'products', data: { messageEntities: [{ dim: 'product', value: '2' }] } }),
       ]),
     ]);
     expect(new MessengerAdapter({}).adapt(message.toJson('USER'))).toEqual({
@@ -62,7 +64,7 @@ describe('MessengerAdapter', () => {
                   url: 'https://image1',
                 },
                 {
-                  payload: '{"dialog":"products","entities":[{"dim":"product","value":"1"}]}',
+                  payload: '{"name":"products","data":{"messageEntities":[{"dim":"product","value":"1"}]}}',
                   title: 'Buy',
                   type: 'postback',
                 },
@@ -78,7 +80,7 @@ describe('MessengerAdapter', () => {
                   url: 'https://image2',
                 },
                 {
-                  payload: '{"dialog":"products","entities":[{"dim":"product","value":"2"}]}',
+                  payload: '{"name":"products","data":{"messageEntities":[{"dim":"product","value":"2"}]}}',
                   title: 'Buy',
                   type: 'postback',
                 },
