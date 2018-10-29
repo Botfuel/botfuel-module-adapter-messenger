@@ -28,8 +28,7 @@ var ImageView = function (_View) {
     value: function render(userMessage, _ref) {
       _objectDestructuringEmpty(_ref);
 
-      var botResponses = [new BotTextMessage('Image uploads are not supported.')];
-      return botResponses;
+      return [new BotTextMessage('Image uploads are not supported.')];
     }
   }]);
 

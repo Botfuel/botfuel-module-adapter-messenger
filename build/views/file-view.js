@@ -28,8 +28,7 @@ var FileView = function (_View) {
     value: function render(userMessage, _ref) {
       _objectDestructuringEmpty(_ref);
 
-      var botResponses = [new BotTextMessage('File uploads are not supported.')];
-      return botResponses;
+      return [new BotTextMessage('File uploads are not supported.')];
     }
   }]);
 

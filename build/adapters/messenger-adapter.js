@@ -261,7 +261,7 @@ var MessengerAdapter = function (_WebAdapter) {
     key: 'processEvent',
     value: function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(event) {
-        var sender, message, postback, userMessage, _text, _attachments, _attachments$0$payloa, _lat, _long, _JSON$parse, dialog, entities;
+        var sender, message, postback, userMessage, _text, _attachments, _attachments$0$payloa, _lat, _long, _JSON$parse, name, data;
 
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
@@ -287,9 +287,9 @@ var MessengerAdapter = function (_WebAdapter) {
                     userMessage = new UserTextMessage(_text);
                   }
                 } else if (postback) {
-                  _JSON$parse = JSON.parse(postback.payload), dialog = _JSON$parse.dialog, entities = _JSON$parse.entities;
+                  _JSON$parse = JSON.parse(postback.payload), name = _JSON$parse.name, data = _JSON$parse.data;
 
-                  userMessage = new PostbackMessage(dialog, entities);
+                  userMessage = new PostbackMessage({ name: name, data: data });
                 }
 
                 if (!userMessage) {
