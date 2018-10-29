@@ -35,7 +35,7 @@ const FB_GRAPH_URL = 'https://graph.facebook.com/v2.6';
 type MessengerEvent = {
   sender: {
     id: string,
-  }, 
+  },
   recipient: {
     id: string,
   },
@@ -145,8 +145,8 @@ class MessengerAdapter extends WebAdapter {
         userMessage = new UserTextMessage(text);
       }
     } else if (postback) {
-      const { dialog, entities } = JSON.parse(postback.payload);
-      userMessage = new PostbackMessage(dialog, entities);
+      const { name, data } = JSON.parse(postback.payload);
+      userMessage = new PostbackMessage({ name, data });
     }
 
     if (userMessage) {
