@@ -283,6 +283,9 @@ var MessengerAdapter = function (_WebAdapter) {
                     userMessage = new UserTextMessage(_lat + ', ' + _long);
                   } else if (_attachments && _attachments[0].type === 'file') {
                     userMessage = new UserFileMessage(_attachments[0].payload.url);
+                  } else if (_attachments) {
+                    // Attachment type is not handled by the bot
+                    userMessage = new PostbackMessage({ name: 'not-supported', data: { messageEntities: [], type: _attachments[0].type } });
                   } else {
                     userMessage = new UserTextMessage(_text);
                   }

@@ -141,6 +141,9 @@ class MessengerAdapter extends WebAdapter {
         userMessage = new UserTextMessage(`${lat}, ${long}`);
       } else if (attachments && attachments[0].type === 'file') {
         userMessage = new UserFileMessage(attachments[0].payload.url);
+      } else if (attachments) {
+          // Attachment type is not handled by the bot
+          userMessage = new PostbackMessage({ name: 'not-supported', data: { messageEntities: [], type: attachments[0].type } });
       } else {
         userMessage = new UserTextMessage(text);
       }
