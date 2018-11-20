@@ -271,39 +271,69 @@ var MessengerAdapter = function (_WebAdapter) {
                 sender = event.sender, message = event.message, postback = event.postback;
                 userMessage = null;
 
-                if (message) {
-                  _text = message.text, _attachments = message.attachments;
-                  // user send attachments
+                if (!message) {
+                  _context3.next = 22;
+                  break;
+                }
 
-                  if (_attachments && _attachments[0].type === 'image') {
-                    userMessage = new UserImageMessage(_attachments[0].payload.url);
-                  } else if (_attachments && _attachments[0].type === 'location') {
-                    _attachments$0$payloa = _attachments[0].payload.coordinates, _lat = _attachments$0$payloa.lat, _long = _attachments$0$payloa.long;
+                _text = message.text, _attachments = message.attachments;
+                // user send attachments
 
-                    userMessage = new UserTextMessage(_lat + ', ' + _long);
-                  } else if (_attachments && _attachments[0].type === 'file') {
-                    userMessage = new UserFileMessage(_attachments[0].payload.url);
-                  } else if (_attachments) {
-                    // Attachment type is not handled by the bot
-                    userMessage = new PostbackMessage({ name: 'not-supported', data: { messageEntities: [], type: _attachments[0].type } });
-                  } else {
-                    userMessage = new UserTextMessage(_text);
-                  }
-                } else if (postback) {
+                if (!_attachments) {
+                  _context3.next = 19;
+                  break;
+                }
+
+                _context3.t0 = _attachments[0].type;
+                _context3.next = _context3.t0 === 'image' ? 9 : _context3.t0 === 'location' ? 11 : _context3.t0 === 'file' ? 14 : 16;
+                break;
+
+              case 9:
+                userMessage = new UserImageMessage(_attachments[0].payload.url);
+                return _context3.abrupt('break', 17);
+
+              case 11:
+                _attachments$0$payloa = _attachments[0].payload.coordinates, _lat = _attachments$0$payloa.lat, _long = _attachments$0$payloa.long;
+
+                userMessage = new UserTextMessage(_lat + ', ' + _long);
+                return _context3.abrupt('break', 17);
+
+              case 14:
+                userMessage = new UserFileMessage(_attachments[0].payload.url);
+                return _context3.abrupt('break', 17);
+
+              case 16:
+                // Attachment type is not handled by the bot
+                userMessage = new PostbackMessage({ name: 'not-supported', data: { messageEntities: [], type: _attachments[0].type } });
+
+              case 17:
+                _context3.next = 20;
+                break;
+
+              case 19:
+                userMessage = new UserTextMessage(_text);
+
+              case 20:
+                _context3.next = 23;
+                break;
+
+              case 22:
+                if (postback) {
                   _JSON$parse = JSON.parse(postback.payload), name = _JSON$parse.name, data = _JSON$parse.data;
 
                   userMessage = new PostbackMessage({ name: name, data: data });
                 }
 
+              case 23:
                 if (!userMessage) {
-                  _context3.next = 7;
+                  _context3.next = 26;
                   break;
                 }
 
-                _context3.next = 7;
+                _context3.next = 26;
                 return this.handleMessage(userMessage.toJson(sender.id));
 
-              case 7:
+              case 26:
               case 'end':
                 return _context3.stop();
             }
