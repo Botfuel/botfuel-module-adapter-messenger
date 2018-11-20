@@ -134,16 +134,22 @@ class MessengerAdapter extends WebAdapter {
     if (message) {
       const { text, attachments } = message;
       // user send attachments
-      if (attachments && attachments[0].type === 'image') {
-        userMessage = new UserImageMessage(attachments[0].payload.url);
-      } else if (attachments && attachments[0].type === 'location') {
-        const { lat, long } = attachments[0].payload.coordinates;
-        userMessage = new UserTextMessage(`${lat}, ${long}`);
-      } else if (attachments && attachments[0].type === 'file') {
-        userMessage = new UserFileMessage(attachments[0].payload.url);
-      } else if (attachments) {
-          // Attachment type is not handled by the bot
-          userMessage = new PostbackMessage({ name: 'not-supported', data: { messageEntities: [], type: attachments[0].type } });
+      if (attachments) {
+        switch (attachments[0].type) {
+          case 'image':
+            userMessage = new UserImageMessage(attachments[0].payload.url);
+            break;
+          case 'location':
+            const { lat, long } = attachments[0].payload.coordinates;
+            userMessage = new UserTextMessage(`${lat}, ${long}`);
+            break;
+          case 'file':
+            userMessage = new UserFileMessage(attachments[0].payload.url);
+            break;
+          default:
+            // Attachment type is not handled by the bot
+            userMessage = new PostbackMessage({ name: 'not-supported', data: { messageEntities: [], type: attachments[0].type } });
+        }
       } else {
         userMessage = new UserTextMessage(text);
       }

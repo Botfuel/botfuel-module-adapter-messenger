@@ -1,8 +1,8 @@
 const { View, BotTextMessage } = require('botfuel-dialog');
 
 class NotSupportedView extends View {
-  render(userMessage, {}) {
-    return [new BotTextMessage('These types of uploads are not supported.')];
+  render(userMessage, { type }) {
+    return [new BotTextMessage(`Attachments of type ${type} are not yet supported by the bot.`)];
   }
 }
 
