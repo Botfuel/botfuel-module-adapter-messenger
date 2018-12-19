@@ -145,6 +145,12 @@ describe('MessengerAdapter request handling', () => {
       id: userMessageUuid,
       payload: {
         value: userMessageText,
+        options: {
+          origin: {
+            adapter: 'Messenger',
+            referrer: '<PAGE_ID>',
+          },
+        },
       },
       sender: 'user',
       timestamp: handlingTimestamp,
