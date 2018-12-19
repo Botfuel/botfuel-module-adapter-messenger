@@ -111,25 +111,36 @@ class MessengerAdapter extends WebAdapter {
     res: express$Response,
   ): Promise<void> {
     logger.debug('handleRequest', req.body);
-    const messengerBody: MessengerBody = (req.body: any);
-    const { object, entry } = messengerBody;
-    if (object === 'page') {
-      for (const entryItem of entry) {
-        for (const event of entryItem.messaging) {
-          await this.processEvent(event); // eslint-disable-line no-await-in-loop
+    try {
+      const messengerBody: MessengerBody = (req.body: any);
+      const { object, entry } = messengerBody;
+      if (object === 'page') {
+        for (const entryItem of entry) {
+          for (const event of entryItem.messaging) {
+            await this.processEvent(event, entryItem.id); // eslint-disable-line no-await-in-loop
+          }
         }
+        return res.sendStatus(200);
       }
-      res.sendStatus(200);
+    } catch (error) {
+      return res.status(400).send({ message: error.message, error });
     }
   }
 
   /**
    * Processes a received event (message, postback, ...).
    * @param event - the messenger event
+   * @param referrer - the facebook page ID
    */
-  async processEvent(event: MessengerEvent): Promise<void> {
+  async processEvent(event: MessengerEvent, referrer: string): Promise<void> {
     logger.debug('processEvent', JSON.stringify(event));
     const { sender, message, postback } = event;
+    const messageOptions = {
+      origin: {
+        adapter: 'Messenger',
+        referrer,
+      },
+    };
     let userMessage = null;
     if (message) {
       const { text, attachments } = message;
@@ -137,25 +148,34 @@ class MessengerAdapter extends WebAdapter {
       if (attachments) {
         switch (attachments[0].type) {
           case 'image':
-            userMessage = new UserImageMessage(attachments[0].payload.url);
+            userMessage = new UserImageMessage(attachments[0].payload.url, messageOptions);
             break;
           case 'location':
             const { lat, long } = attachments[0].payload.coordinates;
-            userMessage = new UserTextMessage(`${lat}, ${long}`);
+            userMessage = new UserTextMessage(`${lat}, ${long}`, messageOptions);
             break;
           case 'file':
-            userMessage = new UserFileMessage(attachments[0].payload.url);
+            userMessage = new UserFileMessage(attachments[0].payload.url, messageOptions);
             break;
           default:
             // Attachment type is not handled by the bot
-            userMessage = new PostbackMessage({ name: 'not-supported', data: { messageEntities: [], type: attachments[0].type } });
+            userMessage = new PostbackMessage(
+              {
+                name: 'not-supported',
+                  data: {
+                    messageEntities: [],
+                    type: attachments[0].type,
+                  },
+              },
+              messageOptions,
+            );
         }
       } else {
-        userMessage = new UserTextMessage(text);
+        userMessage = new UserTextMessage(text, messageOptions);
       }
     } else if (postback) {
       const { name, data } = JSON.parse(postback.payload);
-      userMessage = new PostbackMessage({ name, data });
+      userMessage = new PostbackMessage({ name, data }, messageOptions);
     }
 
     if (userMessage) {
