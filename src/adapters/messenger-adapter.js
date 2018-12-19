@@ -120,7 +120,7 @@ class MessengerAdapter extends WebAdapter {
             await this.processEvent(event, entryItem.id); // eslint-disable-line no-await-in-loop
           }
         }
-        return res.sendStatus(200);
+        res.sendStatus(200);
       }
     } catch (error) {
       return res.status(400).send({ message: error.message, error });
