@@ -46,7 +46,7 @@ class MessengerAdapter extends WebAdapter {
    * @param req - the request object
    * @param res - the response object
    */
-  async validateWebhook(req, res,) {
+  async validateWebhook(req, res) {
     logger.debug('validateWebhook');
     if (
       req.query['hub.mode'] === 'subscribe' &&
@@ -113,10 +113,10 @@ class MessengerAdapter extends WebAdapter {
             userMessage = new PostbackMessage(
               {
                 name: 'not-supported',
-                  data: {
-                    messageEntities: [],
-                    type: attachments[0].type,
-                  },
+                data: {
+                  messageEntities: [],
+                  type: attachments[0].type,
+                },
               },
               messageOptions,
             );
