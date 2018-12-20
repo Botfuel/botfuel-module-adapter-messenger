@@ -6,18 +6,28 @@
   "author": "Benjamin Heinen <benjamin150594@hotmail.fr> && Josselin Morau <josselin.morau@gmail.com>",
   "description": "Messenger adapter module for Botfuel Dialog",
   "license": "Apache 2.0",
-  "dependencies": {},
+  "scripts": {
+    "test": "BOTFUEL_APP_TOKEN=TEST_BOT BOTFUEL_APP_ID=TEST BOTFUEL_APP_KEY=TEST FB_PAGE_ID=790535107818306 jest",
+    "style": "eslint src && eslint tests",
+    "release": "yarn test && yarn publish --conventional-commits --changelog-preset=angular",
+    "prebuild": "node ./scripts/prebuild.js ",
+    "build": "babel src --out-dir build",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "botfuel-dialog": "^11.6.0",
+    "request-promise-native": "^1.0.5",
+    "uuid": "^3.2.1"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.3",
-    "babel-jest": "^21.2.0",
     "babel-plugin-transform-builtin-extend": "^1.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-stage-2": "^6.24.1",
-    "botfuel-dialog": "^11.6.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-babel": "^4.1.1",
@@ -30,25 +40,13 @@
     "eslint-plugin-react": "^7.1.0",
     "flow-bin": "^0.69.0",
     "flow-typed": "^2.4.0",
-    "husky": "^0.14.3",
     "jest": "^23.5.0",
     "jest-cli": "^23.1.0",
-    "lerna": "^3.0.0-alpha.1",
-    "react-flow-types": "^0.2.0-beta.6",
     "replay": "^2.1.4",
-    "request-promise-native": "^1.0.5",
     "shelljs": "^0.8.2",
-    "sinon": "^6.0.0",
-    "uuid": "^3.2.1"
+    "sinon": "^6.0.0"
   },
   "peerDependencies": {
     "botfuel-dialog": ">=11.0.0"
-  },
-  "scripts": {
-    "test": "BOTFUEL_APP_TOKEN=TEST_BOT BOTFUEL_APP_ID=TEST BOTFUEL_APP_KEY=TEST FB_PAGE_ID=790535107818306 jest",
-    "style": "eslint src && eslint tests",
-    "release": "yarn test && yarn publish --conventional-commits --changelog-preset=angular",
-    "prebuild": "node ./scripts/prebuild.js ",
-    "build": "babel src --out-dir build"
   }
 }
