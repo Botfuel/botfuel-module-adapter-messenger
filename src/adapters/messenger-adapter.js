@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-// @flow
-
-import type { BotMessageJson } from '../messages/message';
-
 const rp = require('request-promise-native');
 const {
   Logger,
@@ -32,54 +28,16 @@ const logger = Logger('MessengerAdapter');
 
 const FB_GRAPH_URL = 'https://graph.facebook.com/v2.6';
 
-type MessengerEvent = {
-  sender: {
-    id: string,
-  },
-  recipient: {
-    id: string,
-  },
-  timestamp: number,
-  message: {
-    mid: string,
-    seq: number,
-    text: string,
-    attachments: {
-      type: string,
-      payload: {
-        coordinates: {
-          lat: number,
-          long: number,
-        },
-        url: string,
-      }
-    }[],
-  },
-  postback: {
-    payload: string,
-  },
-};
-
-type MessengerBody = {
-  object: 'page',
-  entry: {
-    id: string,
-    time: number,
-    messaging: MessengerEvent[],
-  }[],
-};
-
-
 /**
  * Adapter for the Facebook Messenger messaging platform.
  * @extends WebAdapter
  */
 class MessengerAdapter extends WebAdapter {
   /** @inheritDoc */
-  createRoutes(app: express$Application) {
+  createRoutes(app) {
     logger.debug('createRoutes');
     super.createRoutes(app);
-    app.get('/webhook', (req: express$Request, res: express$Response) => this.validateWebhook(req, res));
+    app.get('/webhook', (req, res) => this.validateWebhook(req, res));
   }
 
   /**
@@ -88,10 +46,7 @@ class MessengerAdapter extends WebAdapter {
    * @param req - the request object
    * @param res - the response object
    */
-  async validateWebhook(
-    req: express$Request,
-    res: express$Response,
-  ): Promise<void> {
+  async validateWebhook(req, res) {
     logger.debug('validateWebhook');
     if (
       req.query['hub.mode'] === 'subscribe' &&
@@ -106,30 +61,37 @@ class MessengerAdapter extends WebAdapter {
   }
 
   /** @inheritDoc */
-  async handleRequest(
-    req: express$Request,
-    res: express$Response,
-  ): Promise<void> {
+  async handleRequest(req, res) {
     logger.debug('handleRequest', req.body);
-    const messengerBody: MessengerBody = (req.body: any);
-    const { object, entry } = messengerBody;
-    if (object === 'page') {
-      for (const entryItem of entry) {
-        for (const event of entryItem.messaging) {
-          await this.processEvent(event); // eslint-disable-line no-await-in-loop
+    try {
+      const { object, entry } = req.body;
+      if (object === 'page') {
+        for (const entryItem of entry) {
+          for (const event of entryItem.messaging) {
+            await this.processEvent(event, entryItem.id); // eslint-disable-line no-await-in-loop
+          }
         }
+        res.sendStatus(200);
       }
-      res.sendStatus(200);
+    } catch (error) {
+      return res.status(400).send({ message: error.message, error });
     }
   }
 
   /**
    * Processes a received event (message, postback, ...).
    * @param event - the messenger event
+   * @param referrer - the facebook page ID
    */
-  async processEvent(event: MessengerEvent): Promise<void> {
+  async processEvent(event, referrer) {
     logger.debug('processEvent', JSON.stringify(event));
     const { sender, message, postback } = event;
+    const messageOptions = {
+      origin: {
+        adapter: 'messenger',
+        referrer,
+      },
+    };
     let userMessage = null;
     if (message) {
       const { text, attachments } = message;
@@ -137,25 +99,34 @@ class MessengerAdapter extends WebAdapter {
       if (attachments) {
         switch (attachments[0].type) {
           case 'image':
-            userMessage = new UserImageMessage(attachments[0].payload.url);
+            userMessage = new UserImageMessage(attachments[0].payload.url, messageOptions);
             break;
           case 'location':
             const { lat, long } = attachments[0].payload.coordinates;
-            userMessage = new UserTextMessage(`${lat}, ${long}`);
+            userMessage = new UserTextMessage(`${lat}, ${long}`, messageOptions);
             break;
           case 'file':
-            userMessage = new UserFileMessage(attachments[0].payload.url);
+            userMessage = new UserFileMessage(attachments[0].payload.url, messageOptions);
             break;
           default:
             // Attachment type is not handled by the bot
-            userMessage = new PostbackMessage({ name: 'not-supported', data: { messageEntities: [], type: attachments[0].type } });
+            userMessage = new PostbackMessage(
+              {
+                name: 'not-supported',
+                data: {
+                  messageEntities: [],
+                  type: attachments[0].type,
+                },
+              },
+              messageOptions,
+            );
         }
       } else {
-        userMessage = new UserTextMessage(text);
+        userMessage = new UserTextMessage(text, messageOptions);
       }
     } else if (postback) {
       const { name, data } = JSON.parse(postback.payload);
-      userMessage = new PostbackMessage({ name, data });
+      userMessage = new PostbackMessage({ name, data }, messageOptions);
     }
 
     if (userMessage) {
@@ -164,7 +135,7 @@ class MessengerAdapter extends WebAdapter {
   }
 
   /** @inheritDoc */
-  async addUserIfNecessary(userId: string) {
+  async addUserIfNecessary(userId) {
     await super.addUserIfNecessary(userId);
     await this.updateUserProfile(userId);
   }
@@ -182,7 +153,7 @@ class MessengerAdapter extends WebAdapter {
   }
 
   /** @inheritDoc */
-  getBody(botMessage: BotMessageJson) {
+  getBody(botMessage) {
     const message = this.adapt(botMessage);
     return {
       messaging_type: 'RESPONSE',
@@ -198,7 +169,7 @@ class MessengerAdapter extends WebAdapter {
    * @param payload - the payload
    * @returns the text
    */
-  adaptText(payload: any) {
+  adaptText(payload) {
     return {
       text: payload.value,
     };
@@ -209,7 +180,7 @@ class MessengerAdapter extends WebAdapter {
    * @param payload - the payload
    * @returns the quickreplies
    */
-  adaptQuickreplies(payload: any) {
+  adaptQuickreplies(payload) {
     return {
       text: payload.options.text,
       quick_replies: payload.value.map(qr => ({
@@ -225,7 +196,7 @@ class MessengerAdapter extends WebAdapter {
    * @param payload - the payload
    * @returns the image
    */
-  adaptImage(payload: any) {
+  adaptImage(payload) {
     return {
       attachment: {
         type: 'image',
@@ -241,7 +212,7 @@ class MessengerAdapter extends WebAdapter {
    * @param payload - the payload
    * @returns the file
    */
-  adaptFile(payload: any) {
+  adaptFile(payload) {
     return {
       attachment: {
         type: 'file',
@@ -257,7 +228,7 @@ class MessengerAdapter extends WebAdapter {
    * @param payload - the payload
    * @returns the actions
    */
-  adaptActions(payload: any) {
+  adaptActions(payload) {
     logger.debug('adaptActions', payload);
     return {
       attachment: {
@@ -276,7 +247,7 @@ class MessengerAdapter extends WebAdapter {
    * @param payload - the payload
    * @returns the cards
    */
-  adaptCards(payload: any) {
+  adaptCards(payload) {
     logger.debug('adaptCards', payload);
     const elements = payload.value.map((card) => {
       const buttons = card.buttons.map(MessengerAdapter.adaptAction);
@@ -299,7 +270,7 @@ class MessengerAdapter extends WebAdapter {
    * @param botMessage - the bot message
    * @returns the adapted message
    */
-  adapt(botMessage: BotMessageJson) {
+  adapt(botMessage) {
     logger.debug('adapt', botMessage);
     const { payload } = botMessage;
     switch (botMessage.type) {
@@ -326,7 +297,7 @@ class MessengerAdapter extends WebAdapter {
    * @param action - the action object
    * @returns the adapted action or null if action type is not valid
    */
-  static adaptAction(action: any) {
+  static adaptAction(action) {
     logger.debug('adaptAction', action);
     switch (action.type) {
       case 'postback':
@@ -350,7 +321,7 @@ class MessengerAdapter extends WebAdapter {
    * Gets user profile informations and store it into the brain.
    * @param userId - the user id
    */
-  async updateUserProfile(userId: string): Promise<void> {
+  async updateUserProfile(userId) {
     logger.debug('updateUserProfile', userId);
     // check for user profile informations
     const userProfile = await this.bot.brain.userGet(userId, 'profile');

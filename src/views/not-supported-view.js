@@ -7,3 +7,4 @@ class NotSupportedView extends View {
 }
 
 module.exports = NotSupportedView;
+

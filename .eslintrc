@@ -1,0 +1,33 @@
+{
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "plugins": [
+    "node",
+    "jest",
+    "babel"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "airbnb-base"
+  ],
+  "parserOptions": { "ecmaVersion": 8 },
+  "parser": "babel-eslint",
+  "rules": {
+    "import/order": ["error"],
+    "class-methods-use-this": "off",
+    "func-names": "off",
+    "function-paren-newline": ["error", "consistent"],
+    "global-require": "off",
+    "import/no-dynamic-require": "off",
+    "object-curly-newline": ["error", { "consistent": true }],
+    "no-param-reassign": "off",
+    "no-plusplus": "off",
+    "no-restricted-syntax": "off",
+    "no-underscore-dangle": "off",
+    "no-case-declarations": "off",
+    "consistent-return":  "off",
+    "strict": 0
+  }
+}
