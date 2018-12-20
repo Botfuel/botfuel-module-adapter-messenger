@@ -147,7 +147,7 @@ describe('MessengerAdapter request handling', () => {
         value: userMessageText,
         options: {
           origin: {
-            adapter: 'Messenger',
+            adapter: 'messenger',
             referrer: '<PAGE_ID>',
           },
         },

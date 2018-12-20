@@ -88,7 +88,7 @@ class MessengerAdapter extends WebAdapter {
     const { sender, message, postback } = event;
     const messageOptions = {
       origin: {
-        adapter: 'Messenger',
+        adapter: 'messenger',
         referrer,
       },
     };
