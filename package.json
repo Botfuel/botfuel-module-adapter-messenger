@@ -40,5 +40,8 @@
   },
   "peerDependencies": {
     "botfuel-dialog": ">=11.0.0"
-  }
+  },
+  "files": [
+    "build"
+  ]
 }
