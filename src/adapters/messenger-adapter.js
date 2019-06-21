@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-const rp = require('request-promise-native');
-const {
+import rp from 'request-promise-native';
+import {
   Logger,
   WebAdapter,
   PostbackMessage,
   UserImageMessage,
   UserTextMessage,
   UserFileMessage,
-} = require('botfuel-dialog');
+} from 'botfuel-dialog';
 
 const logger = Logger('MessengerAdapter');
 
@@ -355,4 +355,4 @@ class MessengerAdapter extends WebAdapter {
   }
 }
 
-module.exports = MessengerAdapter;
+export default MessengerAdapter;

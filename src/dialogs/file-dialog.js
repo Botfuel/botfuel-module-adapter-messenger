@@ -1,5 +1,5 @@
-const { BaseDialog } = require('botfuel-dialog');
+import { BaseDialog } from 'botfuel-dialog';
 
 class FileDialog extends BaseDialog {}
 
-module.exports = FileDialog;
+export default FileDialog;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-const {
+import {
   Bot,
   BotTextMessage,
   Card,
@@ -24,11 +24,11 @@ const {
   Link,
   Postback,
   Config,
-} = require('botfuel-dialog');
-const rp = require('request-promise-native');
-const sinon = require('sinon');
-const uuidv4 = require('uuid/v4');
-const MessengerAdapter = require('../src/adapters/messenger-adapter');
+} from 'botfuel-dialog';
+import rp from 'request-promise-native';
+import sinon from 'sinon';
+import uuidv4 from 'uuid/v4';
+import MessengerAdapter from '../src/adapters/messenger-adapter';
 
 const TEST_CONFIG = Config.getConfiguration({
   adapter: { name: 'messenger' },
@@ -231,11 +231,11 @@ describe('MessengerAdapter request handling', () => {
 });
 
 describe('Test bot answers to uploads', () => {
-  test(`Bot's response by default to image`, async () => {
+  test("Bot's response by default to image", async () => {
     const bot = new Bot({
       adapter: {
-          name: 'test'
-      }
+        name: 'test',
+      },
     });
     const { userId } = bot.adapter;
     await bot.play([
@@ -247,11 +247,11 @@ describe('Test bot answers to uploads', () => {
     ].map(o => o.toJson(userId)));
   });
 
-  test(`Bot's response by default to file`, async () => {
+  test("Bot's response by default to file", async () => {
     const bot = new Bot({
       adapter: {
-          name: 'test'
-      }
+        name: 'test',
+      },
     });
     const { userId } = bot.adapter;
     await bot.play([

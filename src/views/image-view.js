@@ -1,4 +1,4 @@
-const { View, BotTextMessage } = require('botfuel-dialog');
+import { View, BotTextMessage } from 'botfuel-dialog';
 
 class ImageView extends View {
   render() {
@@ -6,4 +6,4 @@ class ImageView extends View {
   }
 }
 
-module.exports = ImageView;
+export default ImageView;

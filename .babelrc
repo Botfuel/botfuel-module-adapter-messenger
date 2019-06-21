@@ -1,15 +1,16 @@
 {
-  "presets": ["env"],
-  "plugins": [
-    "transform-class-properties",
+  "presets": [
     [
-      "babel-plugin-transform-builtin-extend",
+      "@babel/preset-env",
       {
-        "globals": [
-          "Error",
-          "Array"
-        ]
+        "targets": {
+          "node": true
+        }
       }
     ]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-syntax-dynamic-import"
   ]
 }

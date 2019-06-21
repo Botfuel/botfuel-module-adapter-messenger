@@ -1,4 +1,4 @@
-const { View, BotTextMessage } = require('botfuel-dialog');
+import { View, BotTextMessage } from 'botfuel-dialog';
 
 class FileView extends View {
   render() {
@@ -6,4 +6,4 @@ class FileView extends View {
   }
 }
 
-module.exports = FileView;
+export default FileView;
