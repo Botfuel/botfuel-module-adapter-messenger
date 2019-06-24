@@ -1,5 +1,5 @@
-import { BaseDialog } from 'botfuel-dialog';
+const { BaseDialog } = require('botfuel-dialog');
 
 class NotSupportedDialog extends BaseDialog {}
 
-export default NotSupportedDialog;
+module.exports = NotSupportedDialog;

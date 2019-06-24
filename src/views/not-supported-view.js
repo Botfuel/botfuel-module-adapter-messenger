@@ -1,4 +1,4 @@
-import { View, BotTextMessage } from 'botfuel-dialog';
+const { View, BotTextMessage } = require('botfuel-dialog');
 
 class NotSupportedView extends View {
   render(userMessage, { type }) {
@@ -6,5 +6,4 @@ class NotSupportedView extends View {
   }
 }
 
-export default NotSupportedView;
-
+module.exports = NotSupportedView;

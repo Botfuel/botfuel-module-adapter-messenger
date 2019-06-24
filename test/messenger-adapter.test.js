@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {
+const {
   Bot,
   BotTextMessage,
   Card,
@@ -24,11 +24,11 @@ import {
   Link,
   Postback,
   Config,
-} from 'botfuel-dialog';
-import rp from 'request-promise-native';
-import sinon from 'sinon';
-import uuidv4 from 'uuid/v4';
-import MessengerAdapter from '../src/adapters/messenger-adapter';
+} = require('botfuel-dialog');
+const rp = require('request-promise-native');
+const sinon = require('sinon');
+const uuidv4 = require('uuid/v4');
+const MessengerAdapter = require('../src/adapters/messenger-adapter');
 
 const TEST_CONFIG = Config.getConfiguration({
   adapter: { name: 'messenger' },
