@@ -332,7 +332,7 @@ class MessengerAdapter extends WebAdapter {
           json: true,
           uri: `${FB_GRAPH_URL}/${userId}`,
           qs: {
-            fields: 'first_name,last_name,gender',
+            fields: 'first_name,last_name',
             access_token: process.env.FB_PAGE_ACCESS_TOKEN,
           },
         }).promise();
@@ -341,7 +341,8 @@ class MessengerAdapter extends WebAdapter {
           const profile = {
             firstName: res.first_name,
             lastName: res.last_name,
-            gender: res.gender || null,
+            // Do not removing gender to avoid breaking change
+            gender: null,
           };
           await this.bot.brain.userSet(userId, 'profile', profile);
           logger.debug('updateUserProfile: user profile updated with', profile);
