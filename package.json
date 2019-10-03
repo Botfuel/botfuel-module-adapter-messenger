@@ -1,6 +1,6 @@
 {
   "name": "botfuel-module-adapter-messenger",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "main": "index.js",
   "repository": "https://github.com/Botfuel/botfuel-module-adapter-messenger.git",
   "description": "Messenger adapter module for Botfuel Dialog",
